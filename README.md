@@ -1,8 +1,8 @@
-# ADMS — AI Driver Monitoring System
+# ADMS - AI Driver Monitoring System
 
 Real-time detection of five unsafe driver behaviours from a standard webcam, running fully offline on a consumer laptop GPU.
 
-> Final-year major project — BEng (Hons) Computer Systems Design Engineering, Middlesex University London (2026).
+> Final-year major project - BEng (Hons) Computer Systems Design Engineering, Middlesex University London (2026).
 > Full development write-up: **[aidms2026.hashnode.dev](https://aidms2026.hashnode.dev)**
 
 ---
@@ -27,7 +27,7 @@ Raw detections pass through two custom post-processing stages before anything is
 
 ## Results
 
-Final model — YOLOv26n trained on the AI_DMSv4 dataset.
+Final model - YOLOv26n trained on the AI_DMSv4 dataset.
 
 | Metric | Value |
 |---|---|
@@ -75,9 +75,9 @@ Webcam frame
    On-screen alerts + audio + CSV event log
 ```
 
-**Per-class confidence thresholds.** A single flat threshold across all five classes performed poorly, because the F1–confidence analysis showed each class peaks at a different confidence value — Drinking in particular needed a lower threshold to reach usable recall. Thresholds were therefore set empirically per class from the F1–confidence curves, ranging from 0.15 for Distracted to 0.40 for Seatbelt.
+**Per-class confidence thresholds.** A single flat threshold across all five classes performed poorly, because the F1–confidence analysis showed each class peaks at a different confidence value - Drinking in particular needed a lower threshold to reach usable recall. Thresholds were therefore set empirically per class from the F1–confidence curves, ranging from 0.15 for Distracted to 0.40 for Seatbelt.
 
-**DetectionSmoother.** Raw frame-by-frame YOLO output is noisy: a head turn or lighting change can drop a detection for a single frame while the behaviour is still happening, and transient false positives can appear and vanish just as quickly. A class is therefore only treated as active once it has been detected in at least 3 of the last 5 frames, with each class tracked in its own independent window. At 24–30 FPS a five-frame window is roughly 200 ms, and the worst-case added delay is about 80 ms — well below human reaction time, so the system stays responsive while ignoring single-frame noise.
+**DetectionSmoother.** Raw frame-by-frame YOLO output is noisy: a head turn or lighting change can drop a detection for a single frame while the behaviour is still happening, and transient false positives can appear and vanish just as quickly. A class is therefore only treated as active once it has been detected in at least 3 of the last 5 frames, with each class tracked in its own independent window. At 24–30 FPS a five-frame window is roughly 200 ms, and the worst-case added delay is about 80 ms - well below human reaction time, so the system stays responsive while ignoring single-frame noise.
 
 **RiskScoreTracker.** Confirmed detections feed a single 0–10 risk score that rises with dangerous behaviour and decays over time when driving is safe. Alerts fire on the score rather than on individual detections, so a brief glance away is treated differently from sustained phone use.
 
@@ -85,9 +85,9 @@ Webcam frame
 
 **v4 was not an improvement across the board, and it's worth being precise about that.** Moving from the AI_DMSv3 dataset to AI_DMSv4 raised overall mAP@0.5 from 0.883 to 0.900, precision from 0.831 to 0.906 and recall from 0.743 to 0.813. But two classes went backwards: Drowsy fell from 0.974 to 0.945 and Seatbelt from 0.858 to 0.820. Seatbelt also still had 27% of its instances predicted as background.
 
-The likely cause is class imbalance — PhoneUse had roughly 2.5× the instances of Seatbelt, and Seatbelt was the weakest class in both training runs. The aggregate metric improved while the two classes I'd most want to be reliable did not, which is exactly the case for not judging a model on a single headline number.
+The likely cause is class imbalance - PhoneUse had roughly 2.5× the instances of Seatbelt, and Seatbelt was the weakest class in both training runs. The aggregate metric improved while the two classes I'd most want to be reliable did not, which is exactly the case for not judging a model on a single headline number.
 
-**A note on architecture.** AI_DMSv3 and AI_DMSv4 are *dataset* versions, not models. Both were trained on the same YOLOv26n architecture. A brief comparison run against YOLOv26s showed only a small mAP gain while running noticeably slower, so the nano variant was kept for real-time performance. The contribution here is the dataset engineering and the analysis of how composition changed per-class behaviour, plus the full real-time pipeline — not a novel architecture.
+**A note on architecture.** AI_DMSv3 and AI_DMSv4 are *dataset* versions, not models. Both were trained on the same YOLOv26n architecture. A brief comparison run against YOLOv26s showed only a small mAP gain while running noticeably slower, so the nano variant was kept for real-time performance. The contribution here is the dataset engineering and the analysis of how composition changed per-class behaviour, plus the full real-time pipeline - not a novel architecture.
 
 ## Limitations
 
@@ -147,9 +147,9 @@ Python · Ultralytics YOLO (YOLOv26n) · OpenCV · NumPy · PyTorch · Roboflow 
 
 ## Author
 
-**Mohamed Dawoud** — BEng (Hons) Computer Systems Design Engineering, Middlesex University London
+**Mohamed Dawoud** - BEng (Hons) Computer Systems Design Engineering, Middlesex University London
 mohamedfawzyuk@gmail.com · [LinkedIn](https://www.linkedin.com/in/mohamed-f-dawoud/) · [Blog series](https://aidms2026.hashnode.dev)
 
 ## Licence
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
